@@ -14,15 +14,18 @@ For example here we demonstrate ACL crawling
 
 Edit the domain and start url if needed.
 
-All links are saved in the file - `links.txt`
+All links are saved in the file - `links_bib.txt`
 
 to run this code type - `scrapy crawl geturl`
 
+```
+# replace .bib with .pdf
+sed -i 's/.bib/.pdf/g' links_bib.txt
 
-2. Once you have the links - Crawl/wget them using your own code or use : `ist441_bot/spiders/get_json.py`
+#  change file name
+mv links_bib.txt links_pdf.txt 
 
-run - `scrapy crawl urlgetjson`
+# curl in parallel - 16 jobs : BE POLITE
+parallel -j16 -k curl -O < links_pdf.txt
+```
 
-This will store the raw contents of the links in a `data.jl` file
-
-If you want to fetch pdfs or other files - just change the parse_obj callback to save the file as pdf whenever encountered with a pdf link.
